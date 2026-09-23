@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAGO - Tribal Scholarship Portal</title>
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F9FA; color: #1A1A1A; }
+        .bg-mota-green { background-color: #1B4D2E; }
+        .text-mota-green { color: #1B4D2E; }
+        .border-mota-green { border-color: #1B4D2E; }
+        .bg-mota-gold { background-color: #F4A300; }
+        .text-mota-gold { color: #F4A300; }
+        .hover-mota-green:hover { background-color: #12351f; }
+        
+        /* Hide scrollbar for clean UI but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Simple smooth fade */
+        .fade-in { animation: fadeIn 0.15s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Stepper & Charts */
+        .step-active { border-color: #1B4D2E; color: #1B4D2E; font-weight: 600; }
+        .step-inactive { border-color: #D1D5DB; color: #6B7280; }
+        .step-done { background-color: #1B4D2E; color: white; border-color: #1B4D2E; }
+        
+        .chart-bar { transition: height 0.5s ease-out; }
+    
+        * { box-sizing: border-box; }
+        html { font-size: 18px !important; }
+        html, body { width: 100%; min-height: 100vh; }  
+        body { zoom: 1.3; }  
+        #app { width: 100%; padding: 0; margin: 0; }  
+        .main-content { min-width: 0; width: 100%; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col text-base" >
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="app" class="h-full flex flex-col w-full overflow-y-auto relative">
+
+        <!-- ============================================== -->
+        <!-- VIEW: LANDING PAGE -->
+        <!-- ============================================== -->
+        <section id="view-landing" class="min-h-screen flex flex-col fade-in block">
+            <!-- Navbar -->
+            <nav class="bg-white shadow-sm px-8 py-5 flex justify-between items-center z-10 relative">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-mota-green rounded-full flex items-center justify-center text-white font-bold text-lg">M</div>
+                    <div>
+                        <h1 class="font-bold text-xl text-mota-green leading-tight">JAGO</h1>
+                        <p class="text-xs text-gray-500">Ministry of Tribal Affairs</p>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Hero Section -->
+            <div class="bg-mota-green text-white py-24 px-6 lg:px-20 relative overflow-hidden" style="min-height: 60vh;">
+                <div class="max-w-full px-6 mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                    <div>
+                        <span class="bg-white/20 text-mota-gold text-sm font-semibold px-3 py-1 rounded-full inline-block mb-4">Empowering Every ST Student</span>
+                        <h2 class="text-5xl lg:text-6xl font-bold leading-tight mb-6">JAGO  Tribal Scholarship Portal</h2>
+                        <p class="text-lg text-green-50 mb-8 opacity-90">Seamless access to Pre-Matric, Post-Matric, and Higher Education schemes. Apply, track, and receive disbursements on a unified digital platform.</p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="startRegistration()" class="bg-mota-gold text-mota-green font-bold py-3 px-8 rounded-md shadow-lg hover:bg-yellow-500 transition-colors">
+                                ?? New Registration
+                            </button>
+                            <a href="#login-section" class="bg-white text-mota-green font-bold py-3 px-8 rounded-md shadow-lg hover:bg-gray-100 transition-colors text-center">
+                                ?? Existing Login
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Notice Board -->
+                    <div class="bg-white rounded-lg shadow-xl p-6 text-gray-800">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-lg text-mota-green border-b-2 border-mota-gold pb-1 inline-block">Notice Board</h3>
+                            <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded animate-pulse">Live</span>
+                        </div>
+                        <div id="landing-notices" class="space-y-3 h-64 overflow-y-auto no-scrollbar pr-2">
+                            <!-- Notices injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="bg-white shadow-md border-b border-gray-200">
+                <div class="max-w-full px-6 mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-gray-200">
+                    <div class="pt-4 md:pt-0">
+                        <div class="font-black text-mota-green mb-1" id="stat-beneficiaries" style="font-size: 3rem;">0</div>
+                        <div class="text-sm text-gray-500 font-medium uppercase tracking-wide">Total Beneficiaries</div>
+                    </div>
+                    <div class="pt-4 md:pt-0">
+                        <div class="font-black text-mota-green mb-1" style="font-size: 3rem;">?<span id="stat-disbursed">0</span> Cr</div>
+                        <div class="text-sm text-gray-500 font-medium uppercase tracking-wide">Scholarships Disbursed</div>
+                    </div>
+                    <div class="pt-4 md:pt-0">
+                        <div class="font-black text-mota-green mb-1" id="stat-states" style="font-size: 3rem;">0</div>
+                        <div class="text-sm text-gray-500 font-medium uppercase tracking-wide">States Covered</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Section -->
+            <div id="login-section" class="flex-grow flex items-center justify-center p-6 bg-gray-50">
+                <div class="bg-white rounded-lg shadow-lg border border-gray-100" style="width: 480px; padding: 48px;">
+                    <h3 class="text-2xl font-bold text-center mb-2 text-mota-green">Portal Login</h3>
+                    <p class="text-center text-sm text-gray-500 mb-6">Enter your Student or Admin ID to proceed</p>
+                    
+                    <form onsubmit="event.preventDefault(); handleLogin();" class="space-y-4">
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">ID Number</label>
+                            <input type="text" id="login-id" class="w-full border border-gray-300 rounded-md px-4 py-3 focus:ring-2 focus:ring-mota-green focus:border-mota-green outline-none" placeholder="Try '1' (Student) or '2' (Admin)" required>
+                        </div>
+                        <button type="submit" class="w-full bg-mota-green text-white font-bold py-2 rounded-md hover:bg-[#12351f] transition-colors shadow-sm">
+                            Login
+                        </button>
+                    </form>
+                    <div class="mt-4 text-xs text-center text-gray-400">
+                        Demo Accounts: ID <code>1</code> (Student) | ID <code>2</code> (Admin)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- VIEW: REGISTRATION PAGE -->
+        <!-- ============================================== -->
+        <section id="view-registration" class="min-h-screen bg-gray-50 fade-in hidden pb-20">
+            <nav class="bg-white shadow-sm px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+                <h1 class="font-bold text-xl text-mota-green flex items-center gap-2 cursor-pointer" onclick="switchView('landing')">
+                    <span>?</span> New Student Registration
+                </h1>
+                <button onclick="saveRegistrationDraft()" class="text-sm text-gray-500 hover:text-mota-green font-medium">Save & Continue Later</button>
+            </nav>
+
+            <div class="max-w-full px-6 mx-auto px-4 mt-8">
+                <!-- Stepper -->
+                <div class="flex items-center justify-between mb-8 relative">
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-200 -z-10"></div>
+                    <div class="w-full absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-mota-green -z-10 transition-all duration-300" id="reg-progress-bar" style="width: 25%;"></div>
+                    
+                    <div class="flex flex-col items-center bg-gray-50 px-2">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center step-done" id="step-marker-1">1</div>
+                        <span class="text-xs mt-1 font-medium text-mota-green">Basic Details</span>
+                    </div>
+                    <div class="flex flex-col items-center bg-gray-50 px-2">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-white border-2 step-inactive" id="step-marker-2">2</div>
+                        <span class="text-xs mt-1 font-medium text-gray-500">Academic</span>
+                    </div>
+                    <div class="flex flex-col items-center bg-gray-50 px-2">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-white border-2 step-inactive" id="step-marker-3">3</div>
+                        <span class="text-xs mt-1 font-medium text-gray-500">Documents</span>
+                    </div>
+                    <div class="flex flex-col items-center bg-gray-50 px-2">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-white border-2 step-inactive" id="step-marker-4">4</div>
+                        <span class="text-xs mt-1 font-medium text-gray-500">Review</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow border border-gray-100 p-8 md:p-10">
+                    <!-- Step 1 Form -->
+                    <div id="reg-step-1">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Basic Details</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label class="block text-base text-gray-600 mb-1">Full Name</label><input type="text" id="reg-name" class="w-full border rounded px-4 py-3" placeholder="As per Aadhaar"></div>
+                            <div><label class="block text-base text-gray-600 mb-1">Date of Birth</label><input type="date" id="reg-dob" class="w-full border rounded px-4 py-3"></div>
+                            <div><label class="block text-base text-gray-600 mb-1">Gender</label><select id="reg-gender" class="w-full border rounded px-4 py-3"><option>Male</option><option>Female</option><option>Other</option></select></div>
+                            <div><label class="block text-base text-gray-600 mb-1">Mobile Number</label><input type="tel" id="reg-mobile" class="w-full border rounded px-4 py-3"></div>
+                            <div><label class="block text-base text-gray-600 mb-1">Email</label><input type="email" id="reg-email" class="w-full border rounded px-4 py-3"></div>
+                            <div><label class="block text-base text-gray-600 mb-1">State</label><input type="text" id="reg-state" class="w-full border rounded px-4 py-3"></div>
+                            <div><label class="block text-base text-gray-600 mb-1">District</label><input type="text" id="reg-district" class="w-full border rounded px-4 py-3"></div>
+                            <div><label class="block text-base text-gray-600 mb-1">Aadhaar Number</label><input type="text" id="reg-aadhaar" class="w-full border rounded px-4 py-3" placeholder="XXXX-XXXX-XXXX"></div>
+                        </div>
+                        <div class="mt-6 flex justify-end">
+                            <button onclick="goToRegStep(2)" class="bg-mota-green text-white px-6 py-2 rounded font-medium hover:bg-[#12351f]">Next &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 Form -->
+                    <div id="reg-step-2" class="hidden">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Academic Details</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label class="block text-base text-gray-600 mb-1">Current Level</label><select id="reg-level" class="w-full border rounded px-4 py-3"><option>Pre-Matric</option><option>Post-Matric</option><option>UG</option><option>PG</option><option>PhD</option></select></div>
+                            <div><label class="block text-base text-gray-600 mb-1">Class/Semester</label><input type="text" id="reg-class" class="w-full border rounded px-4 py-3"></div>
+                            <div><label class="block text-base text-gray-600 mb-1">Institution Name</label><input type="text" id="reg-inst" class="w-full border rounded px-4 py-3"></div>
+                            <div><label class="block text-base text-gray-600 mb-1">AISHE Code</label><input type="text" id="reg-aishe" class="w-full border rounded px-4 py-3"></div>
+                            <div><label class="block text-base text-gray-600 mb-1">Board/University</label><input type="text" id="reg-board" class="w-full border rounded px-4 py-3"></div>
+                            <div><label class="block text-base text-gray-600 mb-1">Marks in Last Exam (%)</label><input type="number" id="reg-marks" class="w-full border rounded px-4 py-3"></div>
+                        </div>
+                        <div class="mt-6 flex justify-between">
+                            <button onclick="goToRegStep(1)" class="text-gray-600 px-4 py-2 border rounded hover:bg-gray-50">&larr; Back</button>
+                            <button onclick="goToRegStep(3)" class="bg-mota-green text-white px-6 py-2 rounded font-medium hover:bg-[#12351f]">Next &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 Form -->
+                    <div id="reg-step-3" class="hidden">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h3 class="text-lg font-bold text-gray-800">Document Upload</h3>
+                            <span class="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded">AI-powered OCR coming soon</span>
+                        </div>
+                        <div class="space-y-4" id="doc-upload-list">
+                            <!-- Injected via JS -->
+                        </div>
+                        <div class="mt-6 flex justify-between">
+                            <button onclick="goToRegStep(2)" class="text-gray-600 px-4 py-2 border rounded hover:bg-gray-50">&larr; Back</button>
+                            <button onclick="goToRegStep(4)" class="bg-mota-green text-white px-6 py-2 rounded font-medium hover:bg-[#12351f]">Review &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 Form -->
+                    <div id="reg-step-4" class="hidden">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Review & Submit</h3>
+                        <div class="bg-gray-50 p-4 rounded text-sm space-y-4">
+                            <div><strong class="text-gray-700">Name:</strong> <span id="rev-name"></span></div>
+                            <div><strong class="text-gray-700">Institution:</strong> <span id="rev-inst"></span></div>
+                            <div><strong class="text-gray-700">Level:</strong> <span id="rev-level"></span></div>
+                            <p class="text-xs text-gray-500 italic mt-2">I declare that all information provided is true to my knowledge.</p>
+                        </div>
+                        <div class="mt-6 flex justify-between">
+                            <button onclick="goToRegStep(3)" class="text-gray-600 px-4 py-2 border rounded hover:bg-gray-50">&larr; Back</button>
+                            <button onclick="submitRegistration()" class="bg-mota-gold text-mota-green px-6 py-2 rounded font-bold hover:bg-yellow-500 shadow">Submit Application</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Success Screen -->
+                    <div id="reg-success" class="hidden text-center py-10">
+                        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">?</div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Registration Successful!</h3>
+                        <p class="text-gray-600 mb-6">Your application has been drafted. Please save your Student ID to login.</p>
+                        <div class="inline-block bg-gray-100 border border-gray-300 rounded px-6 py-3 font-mono text-xl font-bold tracking-wider text-mota-green mb-6" id="generated-student-id">
+                            ST2025XXXX
+                        </div>
+                        <div>
+                            <button onclick="switchView('landing')" class="bg-mota-green text-white px-6 py-2 rounded hover:bg-[#12351f]">Return to Login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- SHARED DASHBOARD LAYOUT (STUDENT & ADMIN) -->
+        <!-- ============================================== -->
+        <section id="view-dashboard-shell" class="min-h-screen bg-gray-50 hidden fade-in flex-col md:flex-row h-full">
+            
+            <!-- Mobile Header -->
+            <div class="md:hidden bg-mota-green text-white p-4 flex justify-between items-center shadow-md z-20">
+                <div class="font-bold text-lg">JAGO Portal</div>
+                <button onclick="toggleSidebar()" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+
+            <!-- Sidebar -->
+            <aside id="sidebar" class="bg-white w-72 border-r border-gray-200 flex-shrink-0 absolute md:relative z-10 h-full transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+                <div class="p-6 border-b border-gray-100 hidden md:block">
+                    <h1 class="font-bold text-2xl text-mota-green">JAGO</h1>
+                    <p class="text-xs text-gray-500" id="sidebar-role-text">Student Portal</p>
+                </div>
+                <nav class="p-4 space-y-1 overflow-y-auto h-[calc(100%-80px)]" id="sidebar-nav">
+                    <!-- Injected based on Role -->
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="main-content flex-1 w-full min-h-screen overflow-y-auto bg-gray-50 p-4 md:p-8 relative">
+                
+                <!-- TOP HEADER -->
+                <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-800" id="dashboard-title">Dashboard</h2>
+                    <div class="flex items-center gap-3">
+                        <div class="text-right hidden sm:block">
+                            <div class="text-sm font-bold text-gray-800" id="header-user-name">User</div>
+                            <div class="text-xs text-gray-500" id="header-user-id">ID: </div>
+                        </div>
+                        <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-bold" id="header-user-initial">U</div>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC TAB CONTENT -->
+                <div id="tab-content-container" class="relative">
+                    <!-- Student Tabs -->
+                    <div id="tab-student-dashboard" class="hidden">
+                        <div class="mb-6"><h3 class="text-2xl font-bold text-gray-800">Welcome back, <span id="welcome-name" class="text-mota-green"></span></h3><p class="text-gray-500 text-sm">Here's your scholarship summary.</p></div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 border-l-4 border-l-blue-500">
+                                <div class="text-sm text-gray-500 mb-1">Active Applications</div><div class="text-3xl font-bold text-gray-800">2</div>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 border-l-4 border-l-mota-gold">
+                                <div class="text-sm text-gray-500 mb-1">Pending Actions</div><div class="text-3xl font-bold text-gray-800">1</div>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 border-l-4 border-l-mota-green">
+                                <div class="text-sm text-gray-500 mb-1">Last Disbursement</div><div class="text-3xl font-bold text-gray-800">?45,000</div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div class="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                                <h4 class="font-bold text-gray-800 mb-4">Quick Links</h4>
+                                <div class="flex gap-4">
+                                    <button onclick="switchTab('student-explore')" class="bg-blue-50 text-blue-700 px-4 py-2 rounded-md font-medium hover:bg-blue-100">Apply Now</button>
+                                    <button onclick="switchTab('student-track')" class="bg-gray-50 text-gray-700 px-4 py-2 rounded-md border font-medium hover:bg-gray-100">Check Status</button>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                                <h4 class="font-bold text-gray-800 mb-4 border-b pb-2">Recent Notices</h4>
+                                <ul class="space-y-3 text-sm" id="student-mini-notices"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-student-applications" class="hidden">
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+                            <table class="w-full text-left text-base whitespace-nowrap">
+                                <thead class="bg-gray-50 text-gray-600 border-b">
+                                    <tr><th class="p-4">Scheme Name</th><th class="p-4">Applied On</th><th class="p-4">Status</th><th class="p-4">Disbursement</th><th class="p-4">Action</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b">
+                                        <td class="p-4 font-medium">Post-Matric Scholarship</td><td class="p-4">12 Aug 2025</td>
+                                        <td class="p-4"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs">Under Verification</span></td>
+                                        <td class="p-4">-</td><td class="p-4"><button class="text-blue-600 hover:underline">View Details</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-medium">National Fellowship (NFST)</td><td class="p-4">05 Jan 2025</td>
+                                        <td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Disbursed</span></td>
+                                        <td class="p-4">?25,000</td><td class="p-4"><button class="text-blue-600 hover:underline">View Details</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="tab-student-explore" class="hidden space-y-8">
+                        <div>
+                            <h3 class="font-bold text-lg mb-4 text-mota-green">Available Schemes</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="scheme-cards"></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                            <h3 class="font-bold text-lg mb-4 text-gray-800">University/College Explorer</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-base whitespace-nowrap">
+                                    <thead class="bg-gray-50 border-b">
+                                        <tr><th class="p-4">University</th><th class="p-4">Country</th><th class="p-4">Domain</th><th class="p-4">Seats</th><th class="p-4">Action</th></tr>
+                                    </thead>
+                                    <tbody id="university-table" class="divide-y"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                                <h3 class="font-bold mb-4 text-gray-800 text-sm">Previous Year Cutoffs</h3>
+                                <div class="space-y-3" id="prev-cutoffs"></div>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                                <h3 class="font-bold mb-4 text-gray-800 text-sm">Applicants Trend</h3>
+                                <div class="flex items-end h-32 gap-2" id="prev-applicants-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-student-documents" class="hidden">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-6">
+                            <div class="flex items-center gap-3 mb-2"><div class="w-8 h-8 bg-blue-100 text-blue-600 rounded flex items-center justify-center font-bold">D</div><h3 class="font-bold text-gray-800">Document Wallet</h3></div>
+                            <p class="text-sm text-gray-500">DigiLocker integration coming soon.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="wallet-docs">
+                            <!-- JS populated -->
+                        </div>
+                    </div>
+
+                    <div id="tab-student-track" class="hidden">
+                        <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
+                            <h3 class="font-bold text-gray-800 mb-6">Application: Post-Matric Scholarship (2025-26)</h3>
+                            <div class="flex flex-col md:flex-row justify-between relative">
+                                <div class="absolute left-[15px] top-4 bottom-4 w-1 bg-gray-200 md:w-full md:h-1 md:left-0 md:top-[15px] md:bottom-auto -z-10"></div>
+                                <div class="absolute left-[15px] top-4 h-1/2 w-1 bg-mota-green md:w-1/2 md:h-1 md:left-0 md:top-[15px] -z-10"></div>
+                                
+                                <div class="flex md:flex-col items-center gap-4 md:gap-2 mb-6 md:mb-0 bg-white">
+                                    <div class="w-8 h-8 bg-mota-green text-white rounded-full flex items-center justify-center text-sm">?</div>
+                                    <div class="text-sm font-medium text-gray-800">Submitted</div>
+                                </div>
+                                <div class="flex md:flex-col items-center gap-4 md:gap-2 mb-6 md:mb-0 bg-white">
+                                    <div class="w-8 h-8 bg-mota-green text-white rounded-full flex items-center justify-center text-sm">?</div>
+                                    <div class="text-sm font-medium text-gray-800">Verified</div>
+                                </div>
+                                <div class="flex md:flex-col items-center gap-4 md:gap-2 mb-6 md:mb-0 bg-white">
+                                    <div class="w-8 h-8 bg-mota-gold text-white rounded-full flex items-center justify-center text-sm">3</div>
+                                    <div class="text-sm font-bold text-mota-gold">Sanctioned</div>
+                                </div>
+                                <div class="flex md:flex-col items-center gap-4 md:gap-2 bg-white">
+                                    <div class="w-8 h-8 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center text-sm">4</div>
+                                    <div class="text-sm font-medium text-gray-500">Disbursed</div>
+                                </div>
+                            </div>
+                            <div class="mt-8 text-center"><button class="text-sm border px-4 py-2 rounded text-gray-600 hover:bg-gray-50">Raise Query</button></div>
+                        </div>
+                    </div>
+                    
+                    <div id="tab-student-notices" class="hidden">
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-8 space-y-4" id="full-student-notices"></div>
+                    </div>
+
+                    <div id="tab-student-faq" class="hidden space-y-8">
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                            <h3 class="font-bold text-lg mb-4 text-mota-green">Frequently Asked Questions</h3>
+                            <div class="space-y-3" id="faq-list"></div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                            <h3 class="font-bold text-lg mb-4 text-gray-800">Important Contacts</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-base whitespace-nowrap">
+                                    <thead class="bg-gray-50 border-b"><tr><th class="p-4">Name</th><th class="p-4">Role</th><th class="p-4">Email</th><th class="p-4">Phone</th></tr></thead>
+                                    <tbody id="contacts-table" class="divide-y"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Tabs -->
+                    <div id="tab-admin-analytics" class="hidden space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-white p-8 rounded-lg border border-gray-100 shadow-sm"><div class="text-xs text-gray-500 uppercase tracking-wide">Total Applications</div><div class="text-2xl font-bold text-gray-800">14,520</div></div>
+                            <div class="bg-white p-8 rounded-lg border border-gray-100 shadow-sm"><div class="text-xs text-gray-500 uppercase tracking-wide">Pending Verification</div><div class="text-2xl font-bold text-red-600">3,105</div></div>
+                            <div class="bg-white p-8 rounded-lg border border-gray-100 shadow-sm"><div class="text-xs text-gray-500 uppercase tracking-wide">Sanctioned</div><div class="text-2xl font-bold text-blue-600">8,200</div></div>
+                            <div class="bg-white p-8 rounded-lg border border-gray-100 shadow-sm"><div class="text-xs text-gray-500 uppercase tracking-wide">Disbursed</div><div class="text-2xl font-bold text-mota-green">3,215</div></div>
+                        </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                                <h3 class="font-bold text-sm text-gray-800 mb-4">Applications by Scheme</h3>
+                                <div class="flex items-end h-40 gap-4" id="admin-chart-schemes"></div>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-bold text-sm text-gray-800 mb-4">State-wise Distribution</h3>
+                                    <p class="text-xs text-gray-500 mb-4">Chart placeholder (Pie/Donut)</p>
+                                </div>
+                                <div class="flex justify-center items-center h-32 w-32 rounded-full border-8 border-mota-green border-r-mota-gold border-b-blue-400 border-l-gray-300 mx-auto transform rotate-45"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-admin-applications" class="hidden">
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                            <div class="flex gap-4 mb-4">
+                                <input type="text" placeholder="Search ID or Name" class="border px-4 py-3 rounded text-sm w-full md:w-1/3">
+                                <select class="border px-4 py-3 rounded text-sm"><option>All Schemes</option><option>NOS</option></select>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-base whitespace-nowrap">
+                                    <thead class="bg-gray-50 border-b"><tr><th class="p-4">ID</th><th class="p-4">Name</th><th class="p-4">Scheme</th><th class="p-4">State</th><th class="p-4">Status</th><th class="p-4">Action</th></tr></thead>
+                                    <tbody id="admin-student-table" class="divide-y"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-admin-verification" class="hidden">
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                            <h3 class="font-bold mb-4">Document Verification Queue</h3>
+                            <div class="space-y-4" id="admin-verify-queue"></div>
+                        </div>
+                    </div>
+
+                    <div id="tab-admin-rankings" class="hidden">
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                            <div class="flex justify-between mb-4">
+                                <h3 class="font-bold">Merit Rankings</h3>
+                                <button onclick="sortRankings()" class="text-xs bg-gray-100 px-3 py-1 rounded border">Sort by Score</button>
+                            </div>
+                            <table class="w-full text-left text-base whitespace-nowrap">
+                                <thead class="bg-gray-50 border-b"><tr><th class="p-4">Rank</th><th class="p-4">Name</th><th class="p-4">Score</th><th class="p-4">Scheme</th><th class="p-4">State</th></tr></thead>
+                                <tbody id="admin-rank-table" class="divide-y"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="tab-admin-notices" class="hidden space-y-6">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                            <h3 class="font-bold text-gray-800 mb-4">Add New Notice</h3>
+                            <form onsubmit="event.preventDefault(); addAdminNotice();" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <input type="text" id="new-notice-title" placeholder="Notice Title" class="border px-4 py-3 rounded col-span-2 text-sm" required>
+                                <select id="new-notice-category" class="border px-4 py-3 rounded text-sm"><option>General</option><option>Post-Matric</option><option>NOS</option></select>
+                                <button type="submit" class="bg-mota-green text-white px-4 py-2 rounded font-medium col-span-1 md:col-span-3 hover:bg-[#12351f]">Publish Notice</button>
+                            </form>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                            <h3 class="font-bold text-gray-800 mb-4">Manage Notices</h3>
+                            <div class="space-y-3" id="admin-notice-list"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- AI ASSISTANT OVERLAY -->
+        <!-- ============================================== -->
+        <!-- Floating FAB -->
+        <button id="ai-fab" onclick="toggleAiChat()" class="hidden fixed bottom-6 right-6 w-14 h-14 bg-mota-gold text-mota-green rounded-full shadow-2xl flex items-center justify-center text-2xl z-40 hover:bg-yellow-500 transition-transform hover:scale-105">
+            ??
+        </button>
+
+        <!-- Slide-out Panel -->
+        <div id="ai-chat-panel" class="fixed right-0 top-0 h-full w-80 sm:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col border-l border-gray-200">
+            <div class="bg-mota-green text-white p-4 flex justify-between items-center shadow-md">
+                <div class="font-bold flex items-center gap-2">?? JAGO AI Assistant <span class="text-[10px] bg-white/20 px-2 rounded-full">Gemini</span></div>
+                <button onclick="toggleAiChat()" class="text-white hover:text-gray-200 text-xl">&times;</button>
+            </div>
+            <div class="flex-1 p-4 bg-gray-50 overflow-y-auto space-y-4 text-sm" id="ai-messages">
+                <div class="flex items-start gap-2">
+                    <div class="w-8 h-8 rounded-full bg-mota-green text-white flex justify-center items-center flex-shrink-0 text-xs">AI</div>
+                    <div class="bg-white p-3 rounded-lg rounded-tl-none border shadow-sm">Hi! I'm JAGO, your scholarship guide. I'm being set up  check back soon! Meanwhile, visit the FAQ section for common questions.</div>
+                </div>
+            </div>
+            <div class="p-4 bg-white border-t">
+                <div class="flex gap-2">
+                    <input type="text" placeholder="Type a message..." class="flex-1 border rounded-full px-4 py-2 text-sm focus:outline-none focus:border-mota-green">
+                    <button class="w-10 h-10 bg-mota-green text-white rounded-full flex justify-center items-center shadow">?</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- JAVASCRIPT LOGIC -->
+    <!-- ============================================== -->
+    <script>
+        // -----------------------------------------
+        // 1. GLOBAL STATE & MOCK DATA
+        // -----------------------------------------
+        const appState = {
+            currentUser: null, // null | { id: '1', role: 'student', name: 'Ravi Kumar' } | { id: '2', role: 'admin', name: 'Admin Officer' }
+            currentView: 'landing',
+            activeSidebarTab: null,
+            isSidebarOpen: false,
+            isAiChatOpen: false,
+            generatedStudentId: null,
+
+            // Multi-step form state
+            registrationDraft: {
+                currentStep: 1,
+                basicDetails: {},
+                academicDetails: {},
+                documents: {
+                    caste: { status: 'awaiting', fileName: null },
+                    income: { status: 'awaiting', fileName: null },
+                    aadhaar: { status: 'awaiting', fileName: null },
+                    marksheet: { status: 'awaiting', fileName: null },
+                    passbook: { status: 'awaiting', fileName: null },
+                    bonafide: { status: 'awaiting', fileName: null }
+                }
+            },
+
+            // Mock Data
+            stats: { beneficiaries: 1250000, disbursed: 450, states: 28 },
+            notices: [
+                { id: 1, title: 'NOS 2025-26 applications now open', date: '2025-08-10', category: 'NOS' },
+                { id: 2, title: 'Top Class Scholarship deadline: 31 Oct', date: '2025-08-15', category: 'General' },
+                { id: 3, title: 'Server maintenance this weekend', date: '2025-08-18', category: 'General' },
+                { id: 4, title: 'New guidelines for Pre-Matric released', date: '2025-08-20', category: 'Pre-Matric' }
+            ],
+            schemes: [
+                { name: 'Pre-Matric Scholarship', amount: '?1,000/yr', deadline: '31 Oct 2025' },
+                { name: 'Post-Matric Scholarship', amount: '?2,500 - ?10,000/yr', deadline: '31 Oct 2025' },
+                { name: 'Top Class Education', amount: 'Full Tuition + ?3k/mo', deadline: '15 Nov 2025' },
+                { name: 'National Fellowship (NFST)', amount: '?31,000/mo', deadline: 'Rolling' },
+                { name: 'National Overseas (NOS)', amount: 'Tuition + $15,400/yr', deadline: '30 Sep 2025' }
+            ],
+            universities: [
+                { name: 'Delhi University', country: 'India', domain: 'Humanities', seats: 50 },
+                { name: 'IIT Bombay', country: 'India', domain: 'Engineering', seats: 25 },
+                { name: 'Oxford University', country: 'UK', domain: 'Various', seats: 5 },
+                { name: 'MIT', country: 'USA', domain: 'Technology', seats: 3 },
+                { name: 'University of Melbourne', country: 'Australia', domain: 'Sciences', seats: 4 },
+                { name: 'JNU', country: 'India', domain: 'Social Science', seats: 30 },
+                { name: 'Stanford', country: 'USA', domain: 'Various', seats: 2 },
+                { name: 'Univ. of Toronto', country: 'Canada', domain: 'Various', seats: 5 }
+            ],
+            prevYearCutoffs: [
+                { scheme: 'Top Class Education', cutoff: '85%' },
+                { scheme: 'NFST', cutoff: 'PG with 65%' },
+                { scheme: 'NOS', cutoff: '60% (UG/PG)' }
+            ],
+            prevYearApplicants: [
+                { scheme: 'Pre-Matric', count: 120 }, // scale for mock chart
+                { scheme: 'Post-Matric', count: 80 },
+                { scheme: 'Top Class', count: 40 },
+                { scheme: 'NOS', count: 10 }
+            ],
+            studentRecords: [
+                { id: 'ST2025001', name: 'Ravi Kumar', scheme: 'NOS', state: 'Jharkhand', status: 'Pending', score: 88 },
+                { id: 'ST2025002', name: 'Sunita Hembrom', scheme: 'Post-Matric', state: 'Odisha', status: 'Verified', score: 75 },
+                { id: 'ST2025003', name: 'Ajay Munda', scheme: 'Top Class', state: 'Chhattisgarh', status: 'Pending', score: 92 },
+                { id: 'ST2025004', name: 'Meena Oraon', scheme: 'Pre-Matric', state: 'Assam', status: 'Disbursed', score: 60 },
+                { id: 'ST2025005', name: 'Vikram Bhil', scheme: 'NOS', state: 'Rajasthan', status: 'Rejected', score: 55 }
+            ],
+            faqs: [
+                { q: 'Can I apply for more than one scheme?', a: 'No, you can only avail one MoTA scholarship at a time.' },
+                { q: 'What is the income limit for Post-Matric?', a: 'The family income must not exceed ?2.5 Lakhs per annum.' },
+                { q: 'Do I need DigiLocker?', a: 'Yes, passing documents via DigiLocker is highly recommended for faster verification.' },
+                { q: 'Is Aadhaar mandatory?', a: 'Yes, Aadhaar seeding with your bank account is required for DBT.' }
+            ],
+            contacts: [
+                { name: 'Dr. Amit Sharma', role: 'Nodal Officer, NOS', email: 'nos.mota@gov.in', phone: '011-2338XXXX' },
+                { name: 'Smt. Priya Singh', role: 'Director, Scholarships', email: 'dir.schol-mota@gov.in', phone: '011-2338YYYY' }
+            ]
+        };
+
+        const STUDENT_NAV = [
+            { id: 'student-dashboard', label: '?? Dashboard' },
+            { id: 'student-applications', label: '?? My Applications' },
+            { id: 'student-explore', label: '?? Explore Scholarships' },
+            { id: 'student-documents', label: '?? My Documents' },
+            { id: 'student-track', label: '?? Track Status' },
+            { id: 'student-notices', label: '?? Notice Board' },
+            { id: 'student-faq', label: '? FAQ' },
+            { id: 'logout', label: '?? Logout' }
+        ];
+
+        const ADMIN_NAV = [
+            { id: 'admin-analytics', label: '?? Analytics' },
+            { id: 'admin-applications', label: '?? Student Applications' },
+            { id: 'admin-verification', label: '? Verification Queue' },
+            { id: 'admin-rankings', label: '?? Rankings & Scores' },
+            { id: 'admin-notices', label: '?? Notice Board Manager' },
+            { id: 'logout', label: '?? Logout' }
+        ];
+
+
+        // -----------------------------------------
+        // 2. CORE NAVIGATION & ROUTING
+        // -----------------------------------------
+        function switchView(viewId) {
+            ['view-landing', 'view-registration', 'view-dashboard-shell'].forEach(v => {
+                document.getElementById(v).classList.add('hidden');
+            });
+            document.getElementById(`view-${viewId}`).classList.remove('hidden');
+            appState.currentView = viewId;
+            window.scrollTo(0, 0);
+        }
+
+        function switchTab(tabId) {
+            if (tabId === 'logout') return handleLogout();
+            
+            // Update state
+            appState.activeSidebarTab = tabId;
+            
+            // Hide all tabs
+            const container = document.getElementById('tab-content-container');
+            Array.from(container.children).forEach(child => child.classList.add('hidden'));
+            
+            // Show target
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            
+            // Update Sidebar styling
+            const nav = document.getElementById('sidebar-nav');
+            Array.from(nav.children).forEach(child => {
+                child.classList.remove('bg-gray-100', 'text-mota-green', 'font-bold', 'border-r-4', 'border-mota-green');
+                child.classList.add('text-gray-600');
+                if(child.dataset.id === tabId) {
+                    child.classList.remove('text-gray-600');
+                    child.classList.add('bg-gray-100', 'text-mota-green', 'font-bold', 'border-r-4', 'border-mota-green');
+                    document.getElementById('dashboard-title').innerText = child.dataset.label.substring(2); // strip emoji
+                }
+            });
+
+            if (appState.isSidebarOpen) toggleSidebar(); // Close mobile sidebar
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            appState.isSidebarOpen = !appState.isSidebarOpen;
+            if (appState.isSidebarOpen) {
+                sb.classList.remove('-translate-x-full');
+            } else {
+                sb.classList.add('-translate-x-full');
+            }
+        }
+
+        function toggleAiChat() {
+            const panel = document.getElementById('ai-chat-panel');
+            appState.isAiChatOpen = !appState.isAiChatOpen;
+            if (appState.isAiChatOpen) {
+                panel.classList.remove('translate-x-full');
+            } else {
+                panel.classList.add('translate-x-full');
+            }
+        }
+
+
+        // -----------------------------------------
+        // 3. AUTHENTICATION (MOCK)
+        // -----------------------------------------
+        function handleLogin() {
+            const id = document.getElementById('login-id').value.trim();
+            if (id === '1') {
+                appState.currentUser = { id: '1', role: 'student', name: 'Ravi Kumar' };
+                setupDashboard(STUDENT_NAV, 'student-dashboard', 'Student Portal');
+                document.getElementById('welcome-name').innerText = appState.currentUser.name;
+                document.getElementById('ai-fab').classList.remove('hidden'); // Show AI for student
+            } else if (id === '2') {
+                appState.currentUser = { id: '2', role: 'admin', name: 'Admin Officer' };
+                setupDashboard(ADMIN_NAV, 'admin-analytics', 'Admin Portal');
+                document.getElementById('ai-fab').classList.add('hidden'); // Hide AI for admin
+            } else {
+                alert('Invalid ID. Use 1 for Student, 2 for Admin.');
+                return;
+            }
+            document.getElementById('header-user-name').innerText = appState.currentUser.name;
+            document.getElementById('header-user-id').innerText = `ID: ${id === '1' ? 'ST2025001' : 'ADM-01'}`;
+            document.getElementById('header-user-initial').innerText = appState.currentUser.name.charAt(0);
+            switchView('dashboard-shell');
+        }
+
+        function handleLogout() {
+            appState.currentUser = null;
+            document.getElementById('login-id').value = '';
+            document.getElementById('ai-fab').classList.add('hidden');
+            switchView('landing');
+        }
+
+        function setupDashboard(navArray, defaultTab, roleText) {
+            document.getElementById('sidebar-role-text').innerText = roleText;
+            const nav = document.getElementById('sidebar-nav');
+            nav.innerHTML = navArray.map(item => 
+                `<button data-id="${item.id}" data-label="${item.label}" onclick="switchTab('${item.id}')" class="w-full text-left px-4 py-4 text-base rounded-md mb-1 transition-colors block text-gray-600 hover:bg-gray-50">
+                    ${item.label}
+                </button>`
+            ).join('');
+            switchTab(defaultTab);
+        }
+
+
+        // -----------------------------------------
+        // 4. REGISTRATION FLOW
+        // -----------------------------------------
+        function startRegistration() {
+            appState.registrationDraft.currentStep = 1;
+            renderRegistrationDocs(); // prep doc step
+            switchView('registration');
+            goToRegStep(1);
+        }
+
+        function goToRegStep(step) {
+            // Basic validation check on step transition could go here
+            if (step === 4) {
+                // Populate review screen
+                document.getElementById('rev-name').innerText = document.getElementById('reg-name').value || 'N/A';
+                document.getElementById('rev-inst').innerText = document.getElementById('reg-inst').value || 'N/A';
+                document.getElementById('rev-level').innerText = document.getElementById('reg-level').value || 'N/A';
+            }
+
+            [1,2,3,4].forEach(s => document.getElementById(`reg-step-${s}`).classList.add('hidden'));
+            document.getElementById(`reg-step-${step}`).classList.remove('hidden');
+            document.getElementById('reg-success').classList.add('hidden');
+            
+            // Update Progress Bar
+            document.getElementById('reg-progress-bar').style.width = `${(step-1)*33.33}%`;
+            [1,2,3,4].forEach(s => {
+                const marker = document.getElementById(`step-marker-${s}`);
+                marker.className = `w-8 h-8 rounded-full flex items-center justify-center border-2 ${s < step ? 'step-done' : (s === step ? 'step-active bg-white' : 'step-inactive bg-white')}`;
+            });
+        }
+
+        function renderRegistrationDocs() {
+            const docs = [
+                { key: 'caste', label: 'ST/PVTG Certificate' },
+                { key: 'income', label: 'Income Certificate' },
+                { key: 'aadhaar', label: 'Aadhaar Card' },
+                { key: 'marksheet', label: 'Last Exam Marksheet' },
+                { key: 'passbook', label: 'Bank Passbook' },
+                { key: 'bonafide', label: 'Institution Bonafide' }
+            ];
+            
+            const html = docs.map(d => {
+                const state = appState.registrationDraft.documents[d.key];
+                const isUploaded = state.status === 'uploaded';
+                return `
+                <div class="flex items-center justify-between p-3 border rounded ${isUploaded ? 'bg-green-50 border-green-200' : 'bg-white'}">
+                    <div>
+                        <div class="text-sm font-medium text-gray-800">${d.label}</div>
+                        <div class="text-xs ${isUploaded ? 'text-green-600' : 'text-orange-500'} font-medium mt-1">
+                            ${isUploaded ? 'Uploaded ?' : 'Awaiting Upload'}
+                        </div>
+                    </div>
+                    <button onclick="mockUpload('${d.key}')" class="text-sm ${isUploaded ? 'text-gray-500' : 'bg-gray-100 border text-gray-700'} px-3 py-1 rounded hover:bg-gray-200">
+                        ${isUploaded ? 'Replace' : 'Upload'}
+                    </button>
+                </div>`;
+            }).join('');
+            document.getElementById('doc-upload-list').innerHTML = html;
+        }
+
+        function mockUpload(key) {
+            appState.registrationDraft.documents[key] = { status: 'uploaded', fileName: `mock_${key}.pdf` };
+            renderRegistrationDocs(); // re-render
+        }
+
+        function submitRegistration() {
+            [1,2,3,4].forEach(s => document.getElementById(`reg-step-${s}`).classList.add('hidden'));
+            document.getElementById('reg-success').classList.remove('hidden');
+            
+            // Generate Random ID
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            appState.generatedStudentId = `ST2025${randomNum}`;
+            document.getElementById('generated-student-id').innerText = appState.generatedStudentId;
+        }
+
+        function saveRegistrationDraft() {
+            alert("Draft Saved Successfully to local session state! You can return later.");
+            switchView('landing');
+        }
+
+
+        // -----------------------------------------
+        // 5. RENDERING MOCK DATA (STUDENT & ADMIN)
+        // -----------------------------------------
+        function renderAllNotices() {
+            const mkNotice = (n) => `
+                <div class="border-l-4 border-mota-gold pl-3 py-2 border-b border-gray-100 last:border-0">
+                    <div class="text-xs text-gray-500 mb-1">${n.date} &bull; <span class="bg-gray-100 px-1 rounded">${n.category}</span></div>
+                    <div class="text-sm font-medium text-gray-800">${n.title}</div>
+                </div>`;
+            
+            // 1. Landing
+            document.getElementById('landing-notices').innerHTML = appState.notices.map(mkNotice).join('');
+            
+            // 2. Student Dashboard Mini
+            const miniList = document.getElementById('student-mini-notices');
+            if(miniList) miniList.innerHTML = appState.notices.slice(0,3).map(n => `<li class="border-b pb-2"><div class="text-xs text-gray-500">${n.date}</div><div class="text-gray-800">${n.title}</div></li>`).join('');
+            
+            // 3. Student Full Notice Board
+            const fullList = document.getElementById('full-student-notices');
+            if(fullList) fullList.innerHTML = appState.notices.map(mkNotice).join('');
+
+            // 4. Admin Notice Manager
+            const adminList = document.getElementById('admin-notice-list');
+            if(adminList) {
+                adminList.innerHTML = appState.notices.map((n, i) => `
+                    <div class="flex justify-between items-center p-3 border rounded bg-gray-50">
+                        <div><div class="text-sm font-bold">${n.title}</div><div class="text-xs text-gray-500">${n.date} | ${n.category}</div></div>
+                        <button onclick="deleteNotice(${i})" class="text-red-500 text-sm hover:underline">Delete</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function addAdminNotice() {
+            const title = document.getElementById('new-notice-title').value;
+            const category = document.getElementById('new-notice-category').value;
+            if(!title) return;
+            const d = new Date();
+            appState.notices.unshift({
+                id: Date.now(),
+                title: title,
+                date: d.toISOString().split('T')[0],
+                category: category
+            });
+            document.getElementById('new-notice-title').value = '';
+            renderAllNotices(); // Live update everywhere
+        }
+
+        function deleteNotice(index) {
+            appState.notices.splice(index, 1);
+            renderAllNotices();
+        }
+
+        function renderStudentData() {
+            // Schemes
+            document.getElementById('scheme-cards').innerHTML = appState.schemes.map(s => `
+                <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-1">${s.name}</h4>
+                        <div class="text-xs text-gray-500 mb-4">Amount: ${s.amount} | Deadline: ${s.deadline}</div>
+                    </div>
+                    <button class="w-full text-center text-sm border border-mota-green text-mota-green py-2 rounded hover:bg-green-50 transition-colors">Check Eligibility</button>
+                </div>
+            `).join('');
+
+            // Universities
+            document.getElementById('university-table').innerHTML = appState.universities.map(u => `
+                <tr>
+                    <td class="p-4 font-medium text-gray-800">${u.name}</td>
+                    <td class="p-4"><span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">${u.country}</span></td>
+                    <td class="p-4 text-gray-600">${u.domain}</td>
+                    <td class="p-4 text-gray-600">${u.seats}</td>
+                    <td class="p-4"><button class="text-blue-600 hover:underline">View</button></td>
+                </tr>
+            `).join('');
+
+            // FAQs & Contacts
+            document.getElementById('faq-list').innerHTML = appState.faqs.map(f => `
+                <details class="bg-gray-50 p-4 rounded border"><summary class="font-medium cursor-pointer text-gray-800 outline-none">${f.q}</summary><p class="mt-2 text-sm text-gray-600 ml-4">${f.a}</p></details>
+            `).join('');
+            document.getElementById('contacts-table').innerHTML = appState.contacts.map(c => `
+                <tr><td class="p-4 font-medium">${c.name}</td><td class="p-4 text-gray-600">${c.role}</td><td class="p-4 text-blue-600">${c.email}</td><td class="p-4 text-gray-600">${c.phone}</td></tr>
+            `).join('');
+
+            // Previous Year Data charts
+            document.getElementById('prev-cutoffs').innerHTML = appState.prevYearCutoffs.map(c => `
+                <div class="flex justify-between text-sm border-b pb-2"><span class="text-gray-700">${c.scheme}</span><span class="font-bold text-mota-green">${c.cutoff}</span></div>
+            `).join('');
+            
+            document.getElementById('prev-applicants-chart').innerHTML = appState.prevYearApplicants.map(a => `
+                <div class="flex-1 flex flex-col justify-end group">
+                    <div class="text-[10px] text-center text-gray-400 mb-1 opacity-0 group-hover:opacity-100">${a.count}k</div>
+                    <div class="bg-mota-gold rounded-t-sm w-full chart-bar" style="height: ${a.count}%;"></div>
+                    <div class="text-[10px] text-center mt-1 truncate w-full px-1" title="${a.scheme}">${a.scheme.split(' ')[0]}</div>
+                </div>
+            `).join('');
+
+            // Documents Wallet
+            const docs = ['Aadhaar', 'Income Certificate', 'Caste Certificate', 'Bank Passbook'];
+            document.getElementById('wallet-docs').innerHTML = docs.map((d, i) => `
+                <div class="border p-4 rounded-lg flex justify-between items-center bg-white shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-gray-400">??</div>
+                        <div><div class="text-sm font-medium text-gray-800">${d}</div><div class="text-xs ${i===1?'text-red-500':'text-green-600'}">${i===1?'Rejected':'Verified ?'}</div></div>
+                    </div>
+                    ${i===1 ? '<button class="text-xs bg-red-50 text-red-600 border border-red-200 px-3 py-1 rounded">Re-upload</button>' : ''}
+                </div>
+            `).join('');
+        }
+
+        function renderAdminData() {
+            // Admin Application Table
+            const renderStatus = (s) => {
+                if(s==='Verified') return `<span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">${s}</span>`;
+                if(s==='Disbursed') return `<span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">${s}</span>`;
+                if(s==='Rejected') return `<span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs">${s}</span>`;
+                return `<span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs">${s}</span>`;
+            };
+
+            document.getElementById('admin-student-table').innerHTML = appState.studentRecords.map(r => `
+                <tr>
+                    <td class="p-4 text-xs font-mono text-gray-500">${r.id}</td>
+                    <td class="p-4 font-medium text-gray-800">${r.name}</td>
+                    <td class="p-4 text-gray-600">${r.scheme}</td>
+                    <td class="p-4 text-gray-600">${r.state}</td>
+                    <td class="p-4">${renderStatus(r.status)}</td>
+                    <td class="p-4">
+                        ${r.status === 'Pending' ? 
+                            `<button class="text-xs bg-mota-green text-white px-2 py-1 rounded hover:bg-[#12351f]" onclick="adminAction('${r.id}', 'Verified')">Verify</button>
+                             <button class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded ml-1" onclick="adminAction('${r.id}', 'Rejected')">Reject</button>` 
+                            : `<span class="text-xs text-gray-400">Done</span>`}
+                    </td>
+                </tr>
+            `).join('');
+
+            // Verification Queue
+            document.getElementById('admin-verify-queue').innerHTML = appState.studentRecords.filter(r => r.status==='Pending').map(r => `
+                <div class="flex flex-col md:flex-row justify-between md:items-center p-4 border rounded-lg bg-gray-50 gap-4">
+                    <div class="flex-1">
+                        <div class="font-medium text-gray-800">${r.name} <span class="text-xs font-mono text-gray-500 ml-2">${r.id}</span></div>
+                        <div class="text-xs text-gray-500 mt-1">Pending: Income Certificate | Uploaded: 2 hours ago</div>
+                        <div class="text-xs text-blue-600 mt-1 flex items-center gap-1"><span class="animate-spin inline-block">?</span> AI OCR Processing...</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="bg-white border text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-100">Request Resubmission</button>
+                        <button class="bg-mota-green text-white px-3 py-1 rounded text-sm hover:bg-[#12351f]" onclick="adminAction('${r.id}', 'Verified')">Mark Verified</button>
+                    </div>
+                </div>
+            `).join('');
+
+            renderRankings();
+            
+            // Scheme Chart Mock
+            const chartData = [60, 80, 40, 90, 30]; // Heights
+            const chartLabels = ['Pre-Matric', 'Post-Matric', 'Top Class', 'NFST', 'NOS'];
+            document.getElementById('admin-chart-schemes').innerHTML = chartData.map((h, i) => `
+                <div class="flex-1 flex flex-col justify-end relative group">
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-bold text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">${h}k</div>
+                    <div class="w-full bg-mota-green rounded-t-sm chart-bar" style="height: ${h}%"></div>
+                    <div class="text-[10px] text-center mt-2 text-gray-500 truncate" title="${chartLabels[i]}">${chartLabels[i].split(' ')[0]}</div>
+                </div>
+            `).join('');
+        }
+
+        let rankSortedDesc = false;
+        function renderRankings() {
+            document.getElementById('admin-rank-table').innerHTML = appState.studentRecords.map((r, i) => `
+                <tr><td class="p-4 text-gray-500 font-bold">#${i+1}</td><td class="p-4 font-medium">${r.name}</td><td class="p-4 font-bold text-mota-green">${r.score}</td><td class="p-4 text-gray-600">${r.scheme}</td><td class="p-4 text-gray-600">${r.state}</td></tr>
+            `).join('');
+        }
+
+        function sortRankings() {
+            rankSortedDesc = !rankSortedDesc;
+            appState.studentRecords.sort((a,b) => rankSortedDesc ? b.score - a.score : a.score - b.score);
+            renderRankings();
+            renderAdminData(); // re-render table to keep synced
+        }
+
+        function adminAction(id, newStatus) {
+            const rec = appState.studentRecords.find(r => r.id === id);
+            if(rec) rec.status = newStatus;
+            renderAdminData(); // live refresh
+        }
+
+        // -----------------------------------------
+        // 6. INITIALIZATION
+        // -----------------------------------------
+        function animateStats() {
+            const targetB = appState.stats.beneficiaries;
+            let currentB = 1249000; // start slightly below to show quick count
+            const elB = document.getElementById('stat-beneficiaries');
+            
+            const timer = setInterval(() => {
+                currentB += 53;
+                if(currentB >= targetB) {
+                    currentB = targetB;
+                    clearInterval(timer);
+                }
+                elB.innerText = currentB.toLocaleString('en-IN') + '+';
+            }, 30);
+
+            // Simple setters for others
+            document.getElementById('stat-disbursed').innerText = appState.stats.disbursed;
+            document.getElementById('stat-states').innerText = appState.stats.states;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAllNotices();
+            renderStudentData();
+            renderAdminData();
+            animateStats();
+        });
+
+    </script>
+</body>
+</html>

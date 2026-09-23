@@ -1,0 +1,58 @@
+- generic [ref=f4e55]:
+  - navigation [ref=f4e56]:
+    - heading "🏠 New Student Registration" [level=1] [ref=f4e57] [cursor=pointer]:
+      - generic [ref=f4e58]: 🏠
+      - text: New Student Registration
+    - button "Save & Continue Later" [ref=f4e59] [cursor=pointer]
+  - generic [ref=f4e60]:
+    - generic [ref=f4e61]:
+      - generic [ref=f4e63]:
+        - generic [ref=f4e64]: "1"
+        - generic [ref=f4e65]: Basic Details
+      - generic [ref=f4e66]:
+        - generic [ref=f4e67]: "2"
+        - generic [ref=f4e68]: Academic
+      - generic [ref=f4e69]:
+        - generic [ref=f4e70]: "3"
+        - generic [ref=f4e71]: Documents
+      - generic [ref=f4e72]:
+        - generic [ref=f4e73]: "4"
+        - generic [ref=f4e74]: Review
+    - generic [ref=f4e130]:
+      - generic [ref=f4e131]:
+        - heading "Document Upload" [level=3] [ref=f4e132]
+        - generic [ref=f4e133]: Powered by AI OCR — extracted data will be auto-filled in your application
+      - generic [ref=f4e134]:
+        - generic [ref=f4e136]:
+          - generic [ref=f4e137]: ST/PVTG Certificate
+          - generic [ref=f4e138]:
+            - generic [ref=f4e139]: Awaiting Upload
+            - button "Upload" [ref=f4e140] [cursor=pointer]
+        - generic [ref=f4e142]:
+          - generic [ref=f4e143]: Income Certificate
+          - generic [ref=f4e144]:
+            - generic [ref=f4e145]: Awaiting Upload
+            - button "Upload" [ref=f4e146] [cursor=pointer]
+        - generic [ref=f4e148]:
+          - generic [ref=f4e149]: Aadhaar Card
+          - generic [ref=f4e150]:
+            - generic [ref=f4e151]: Awaiting Upload
+            - button "Upload" [ref=f4e152] [cursor=pointer]
+        - generic [ref=f4e154]:
+          - generic [ref=f4e155]: Last Exam Marksheet
+          - generic [ref=f4e156]:
+            - generic [ref=f4e157]: Awaiting Upload
+            - button "Upload" [ref=f4e158] [cursor=pointer]
+        - generic [ref=f4e160]:
+          - generic [ref=f4e161]: Bank Passbook
+          - generic [ref=f4e162]:
+            - generic [ref=f4e163]: Awaiting Upload
+            - button "Upload" [ref=f4e164] [cursor=pointer]
+        - generic [ref=f4e166]:
+          - generic [ref=f4e167]: Institution Bonafide
+          - generic [ref=f4e168]:
+            - generic [ref=f4e169]: Awaiting Upload
+            - button "Upload" [ref=f4e170] [cursor=pointer]
+      - generic [ref=f4e171]:
+        - button "← Back" [ref=f4e172] [cursor=pointer]
+        - button "Review ➔" [ref=f4e173] [cursor=pointer]

@@ -1,0 +1,34 @@
+- generic [ref=f3e55]:
+  - navigation [ref=f3e56]:
+    - heading "🏠 New Student Registration" [level=1] [ref=f3e57] [cursor=pointer]:
+      - generic [ref=f3e58]: 🏠
+      - text: New Student Registration
+    - button "Save & Continue Later" [ref=f3e59] [cursor=pointer]
+  - generic [ref=f3e60]:
+    - generic [ref=f3e61]:
+      - generic [ref=f3e63]:
+        - generic [ref=f3e64]: "1"
+        - generic [ref=f3e65]: Basic Details
+      - generic [ref=f3e66]:
+        - generic [ref=f3e67]: "2"
+        - generic [ref=f3e68]: Academic
+      - generic [ref=f3e69]:
+        - generic [ref=f3e70]: "3"
+        - generic [ref=f3e71]: Documents
+      - generic [ref=f3e72]:
+        - generic [ref=f3e73]: "4"
+        - generic [ref=f3e74]: Review
+    - generic [ref=f3e130]:
+      - generic [ref=f3e131]:
+        - heading "Document Upload" [level=3] [ref=f3e132]
+        - generic [ref=f3e133]: Powered by AI OCR — extracted data will be auto-filled in your application
+      - generic [ref=f3e134]:
+        - generic [ref=f3e135]: ST/PVTG Certificate
+        - generic [ref=f3e139]: Income Certificate
+        - generic [ref=f3e143]: Aadhaar Card
+        - generic [ref=f3e147]: Last Exam Marksheet
+        - generic [ref=f3e151]: Bank Passbook
+        - generic [ref=f3e155]: Institution Bonafide
+      - generic [ref=f3e159]:
+        - button "← Back" [ref=f3e160] [cursor=pointer]
+        - button "Review ➔" [ref=f3e161] [cursor=pointer]

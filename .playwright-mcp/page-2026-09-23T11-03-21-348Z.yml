@@ -1,0 +1,52 @@
+- generic [ref=f4e55]:
+  - navigation [ref=f4e56]:
+    - heading "🏠 New Student Registration" [level=1] [ref=f4e57] [cursor=pointer]:
+      - generic [ref=f4e58]: 🏠
+      - text: New Student Registration
+    - button "Save & Continue Later" [ref=f4e59] [cursor=pointer]
+  - generic [ref=f4e60]:
+    - generic [ref=f4e61]:
+      - generic [ref=f4e63]:
+        - generic [ref=f4e64]: "1"
+        - generic [ref=f4e65]: Basic Details
+      - generic [ref=f4e66]:
+        - generic [ref=f4e67]: "2"
+        - generic [ref=f4e68]: Academic
+      - generic [ref=f4e69]:
+        - generic [ref=f4e70]: "3"
+        - generic [ref=f4e71]: Documents
+      - generic [ref=f4e72]:
+        - generic [ref=f4e73]: "4"
+        - generic [ref=f4e74]: Review
+    - generic [ref=f4e76]:
+      - heading "Basic Details" [level=3] [ref=f4e77]
+      - generic [ref=f4e78]:
+        - generic [ref=f4e79]:
+          - generic [ref=f4e80]: Full Name
+          - textbox "As per Aadhaar" [ref=f4e81]
+        - generic [ref=f4e82]:
+          - generic [ref=f4e83]: Date of Birth
+          - textbox [ref=f4e84]
+        - generic [ref=f4e85]:
+          - generic [ref=f4e86]: Gender
+          - combobox [ref=f4e87]:
+            - option "Select" [selected]
+            - option "Male"
+            - option "Female"
+            - option "Other"
+        - generic [ref=f4e88]:
+          - generic [ref=f4e89]: Mobile Number
+          - textbox [ref=f4e90]
+        - generic [ref=f4e91]:
+          - generic [ref=f4e92]: Email
+          - textbox [ref=f4e93]
+        - generic [ref=f4e94]:
+          - generic [ref=f4e95]: State
+          - textbox [ref=f4e96]
+        - generic [ref=f4e97]:
+          - generic [ref=f4e98]: District
+          - textbox [ref=f4e99]
+        - generic [ref=f4e100]:
+          - generic [ref=f4e101]: Aadhaar Number
+          - textbox "XXXX-XXXX-XXXX" [ref=f4e102]
+      - button "Next ➔" [ref=f4e104] [cursor=pointer]

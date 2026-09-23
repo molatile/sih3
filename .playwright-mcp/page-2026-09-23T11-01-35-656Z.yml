@@ -1,0 +1,50 @@
+- generic [ref=f3e55]:
+  - navigation [ref=f3e56]:
+    - heading "🏠 New Student Registration" [level=1] [ref=f3e57] [cursor=pointer]:
+      - generic [ref=f3e58]: 🏠
+      - text: New Student Registration
+    - button "Save & Continue Later" [ref=f3e59] [cursor=pointer]
+  - generic [ref=f3e60]:
+    - generic [ref=f3e61]:
+      - generic [ref=f3e63]:
+        - generic [ref=f3e64]: "1"
+        - generic [ref=f3e65]: Basic Details
+      - generic [ref=f3e66]:
+        - generic [ref=f3e67]: "2"
+        - generic [ref=f3e68]: Academic
+      - generic [ref=f3e69]:
+        - generic [ref=f3e70]: "3"
+        - generic [ref=f3e71]: Documents
+      - generic [ref=f3e72]:
+        - generic [ref=f3e73]: "4"
+        - generic [ref=f3e74]: Review
+    - generic [ref=f3e105]:
+      - heading "Academic Details" [level=3] [ref=f3e106]
+      - generic [ref=f3e107]:
+        - generic [ref=f3e108]:
+          - generic [ref=f3e109]: Current Level
+          - combobox [ref=f3e110]:
+            - option "Select" [selected]
+            - option "Pre-Matric"
+            - option "Post-Matric"
+            - option "UG"
+            - option "PG"
+            - option "PhD"
+        - generic [ref=f3e111]:
+          - generic [ref=f3e112]: Class/Semester
+          - textbox [ref=f3e113]
+        - generic [ref=f3e114]:
+          - generic [ref=f3e115]: Institution Name
+          - textbox [ref=f3e116]
+        - generic [ref=f3e117]:
+          - generic [ref=f3e118]: AISHE Code
+          - textbox [ref=f3e119]
+        - generic [ref=f3e120]:
+          - generic [ref=f3e121]: Board/University
+          - textbox [ref=f3e122]
+        - generic [ref=f3e123]:
+          - generic [ref=f3e124]: Marks in Last Exam (%)
+          - spinbutton [ref=f3e125]
+      - generic [ref=f3e126]:
+        - button "← Back" [ref=f3e127] [cursor=pointer]
+        - button "Next ➔" [ref=f3e128] [cursor=pointer]

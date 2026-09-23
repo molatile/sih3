@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-size: 18px !important;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F8F9FA;
+    color: #1A1A1A;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.15s ease-in;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .step-active {
+    border-color: #1B4D2E;
+    color: #1B4D2E;
+    font-weight: 600;
+  }
+  .step-inactive {
+    border-color: #D1D5DB;
+    color: #6B7280;
+  }
+  .step-done {
+    background-color: #1B4D2E;
+    color: white;
+    border-color: #1B4D2E;
+  }
+  
+  .chart-bar {
+    transition: height 0.5s ease-out;
+  }
+}
