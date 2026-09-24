@@ -1,0 +1,45 @@
+- generic [ref=f11e69]:
+  - complementary [ref=f11e70]:
+    - generic [ref=f11e71]:
+      - heading "JAGO" [level=1] [ref=f11e72]
+      - paragraph [ref=f11e73]: Student Portal
+    - navigation [ref=f11e74]:
+      - button "Dashboard" [ref=f11e75] [cursor=pointer]
+      - button "🎯 Check Eligibility" [ref=f11e78] [cursor=pointer]
+      - button "My Applications" [active] [ref=f11e81] [cursor=pointer]
+      - button "Explore Schemes" [ref=f11e84] [cursor=pointer]
+      - button "DigiLocker Wallet" [ref=f11e87] [cursor=pointer]
+      - button "Track Status" [ref=f11e90] [cursor=pointer]
+      - button "📍 My Position" [ref=f11e93] [cursor=pointer]
+      - button "Notice Board" [ref=f11e96] [cursor=pointer]
+      - button "Help & FAQs" [ref=f11e99] [cursor=pointer]
+  - main [ref=f11e102]:
+    - generic [ref=f11e104]:
+      - generic [ref=f11e105]:
+        - generic [ref=f11e106]: Ravi Kumar
+        - generic [ref=f11e107]: Applicant
+      - generic [ref=f11e108]: R
+      - button [ref=f11e109] [cursor=pointer]
+    - table [ref=f11e137]:
+      - rowgroup [ref=f11e138]:
+        - row [ref=f11e139]:
+          - columnheader "Scheme Name" [ref=f11e140]
+          - columnheader "Applied On" [ref=f11e141]
+          - columnheader "Status" [ref=f11e142]
+          - columnheader "Disbursement" [ref=f11e143]
+          - columnheader "Action" [ref=f11e144]
+      - rowgroup [ref=f11e145]:
+        - row [ref=f11e146]:
+          - cell "Post-Matric Scholarship" [ref=f11e147]
+          - cell "12 Aug 2025" [ref=f11e148]
+          - cell "Under Verification" [ref=f11e149]
+          - cell "-" [ref=f11e150]
+          - cell [ref=f11e151]:
+            - button "View Details" [ref=f11e152] [cursor=pointer]
+        - row [ref=f11e153]:
+          - cell "National Fellowship (NFST)" [ref=f11e154]
+          - cell "05 Jan 2025" [ref=f11e155]
+          - cell "Disbursed" [ref=f11e156]
+          - cell "₹25,000" [ref=f11e157]
+          - cell [ref=f11e158]:
+            - button "View Details" [ref=f11e159] [cursor=pointer]

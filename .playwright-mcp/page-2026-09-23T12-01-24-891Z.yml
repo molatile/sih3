@@ -1,0 +1,44 @@
+- generic [ref=f11e3]:
+  - navigation [ref=f11e4]:
+    - generic [ref=f11e5]:
+      - generic [ref=f11e6]: M
+      - generic [ref=f11e7]:
+        - heading "JAGO" [level=1] [ref=f11e8]
+        - paragraph [ref=f11e9]: Ministry of Tribal Affairs
+  - generic [ref=f11e11]:
+    - generic [ref=f11e12]:
+      - generic [ref=f11e13]: Empowering Every ST Student
+      - heading "JAGO Tribal Scholarship Portal" [level=2] [ref=f11e14]
+      - paragraph [ref=f11e15]: Seamless access to Pre-Matric, Post-Matric, and Higher Education schemes. Apply, track, and receive disbursements on a unified digital platform.
+      - generic [ref=f11e16]:
+        - button "📝 New Registration" [ref=f11e17] [cursor=pointer]
+        - link "🔑 Existing Login" [ref=f11e18] [cursor=pointer]:
+          - /url: "#login-section"
+    - generic [ref=f11e20]:
+      - heading "Notice Board" [level=3] [ref=f11e21]
+      - generic [ref=f11e22]: Live
+  - generic [ref=f11e25]:
+    - generic [ref=f11e26]:
+      - generic [ref=f11e27]: 1,249,053
+      - generic [ref=f11e28]: Total Beneficiaries
+    - generic [ref=f11e29]:
+      - generic [ref=f11e30]: ₹842 Cr
+      - generic [ref=f11e31]: Scholarships Disbursed
+    - generic [ref=f11e32]:
+      - generic [ref=f11e33]: "28"
+      - generic [ref=f11e34]: States Covered
+  - generic [ref=f11e36]:
+    - generic [ref=f11e37]:
+      - heading "Portal Login" [level=3] [ref=f11e38]
+      - paragraph [ref=f11e39]: Select your role to access the JAGO portal
+    - generic [ref=f11e40]:
+      - generic [ref=f11e41] [cursor=pointer]:
+        - generic [ref=f11e42]: 🎓
+        - heading "Student Login" [level=4] [ref=f11e43]
+        - paragraph [ref=f11e44]: Access your scholarship dashboard, track applications, and view documents.
+        - button "Login as Student" [ref=f11e45]
+      - generic [ref=f11e48] [cursor=pointer]:
+        - generic [ref=f11e49]: ⚙️
+        - heading "Admin Login" [level=4] [ref=f11e50]
+        - paragraph [ref=f11e51]: Manage applications, verify documents, and view analytics.
+        - button "Login as Admin" [ref=f11e52]

@@ -1,0 +1,45 @@
+- generic [ref=f11e69]:
+  - complementary [ref=f11e70]:
+    - generic [ref=f11e71]:
+      - heading "JAGO" [level=1] [ref=f11e72]
+      - paragraph [ref=f11e73]: Student Portal
+    - navigation [ref=f11e74]:
+      - button "Dashboard" [ref=f11e75] [cursor=pointer]
+      - button "🎯 Check Eligibility" [ref=f11e78] [cursor=pointer]
+      - button "My Applications" [ref=f11e81] [cursor=pointer]
+      - button "Explore Schemes" [ref=f11e84] [cursor=pointer]
+      - button "DigiLocker Wallet" [ref=f11e87] [cursor=pointer]
+      - button "Track Status" [ref=f11e90] [cursor=pointer]
+      - button "📍 My Position" [ref=f11e93] [cursor=pointer]
+      - button "Notice Board" [ref=f11e96] [cursor=pointer]
+      - button "Help & FAQs" [ref=f11e99] [cursor=pointer]
+  - main [ref=f11e102]:
+    - generic [ref=f11e104]:
+      - generic [ref=f11e105]:
+        - generic [ref=f11e106]: Ravi Kumar
+        - generic [ref=f11e107]: Applicant
+      - generic [ref=f11e108]: R
+      - button [ref=f11e109] [cursor=pointer]
+    - generic [ref=f11e113]:
+      - generic [ref=f11e114]:
+        - heading "Welcome back," [level=3] [ref=f11e115]
+        - paragraph [ref=f11e116]: Here's your scholarship summary.
+      - generic [ref=f11e117]:
+        - generic [ref=f11e118]:
+          - generic [ref=f11e119]: Active Applications
+          - generic [ref=f11e120]: "2"
+        - generic [ref=f11e121]:
+          - generic [ref=f11e122]: Pending Actions
+          - generic [ref=f11e123]: "1"
+        - generic [ref=f11e124]:
+          - generic [ref=f11e125]: Last Disbursement
+          - generic [ref=f11e126]: "?45,000"
+      - generic [ref=f11e127]:
+        - generic [ref=f11e128]:
+          - heading "Quick Links" [level=4] [ref=f11e129]
+          - generic [ref=f11e130]:
+            - button "Apply Now" [ref=f11e131] [cursor=pointer]
+            - button "Check Status" [ref=f11e132] [cursor=pointer]
+        - generic [ref=f11e133]:
+          - heading "Recent Notices" [level=4] [ref=f11e134]
+          - list

@@ -1,0 +1,11 @@
+- generic [ref=f11e56]:
+  - button "Back" [ref=f11e57] [cursor=pointer]
+  - generic [ref=f11e60]:
+    - generic [ref=f11e61]: 🎓
+    - heading "Student Login" [level=3] [ref=f11e62]
+    - paragraph [ref=f11e63]: Enter your Student ID to access your dashboard
+  - generic [ref=f11e64]:
+    - generic [ref=f11e65]:
+      - generic [ref=f11e66]: Student ID
+      - textbox "Try '1'" [ref=f11e67]
+    - button "Login as Student" [ref=f11e68] [cursor=pointer]
